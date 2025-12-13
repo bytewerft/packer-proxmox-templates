@@ -132,7 +132,7 @@ variable "cpu_type" {
 
 variable "memory" {
   type    = number
-  default = 1024
+  default = 2048
 }
 
 // Disk Variables //
@@ -158,7 +158,7 @@ variable "disk_io_thread" {
 
 variable "disk_size" {
   type    = string
-  default = "10G"
+  default = "15G"
 }
 
 variable "disk_ssd" {
