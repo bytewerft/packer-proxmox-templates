@@ -2,6 +2,7 @@ build {
   source "proxmox-iso.image" {
     name         = "ubuntu22"
     boot_command = var.boot_cmd_ubuntu22
+    boot_key_interval = var.boot_key_interval
     boot_wait    = var.boot_wait
     http_content = {
       "/meta-data" = file("configs/meta-data")
@@ -20,6 +21,7 @@ build {
   source "proxmox-iso.image" {
     name         = "ubuntu24"
     boot_command = var.boot_cmd_ubuntu22
+    boot_key_interval = var.boot_key_interval
     boot_wait    = var.boot_wait
     http_content = {
       "/meta-data" = file("configs/meta-data")
