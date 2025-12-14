@@ -23,9 +23,14 @@ source "proxmox-iso" "image" {
   ssh_clear_authorized_keys = var.ssh_clear_authorized_keys
 
   // ISO
-  iso_download_pve     = var.iso_download_pve
-  iso_storage_pool     = var.iso_storage_pool
-  unmount_iso          = var.unmount_iso
+  boot_iso {
+    iso_storage_pool     = var.iso_storage_pool
+    iso_download_pve     = var.iso_download_pve
+    iso_url              = var.iso_url["${source.name}"]
+    iso_checksum         = var.iso_checksum["${source.name}"]
+    unmount              = var.unmount
+  }
+
   os                   = var.os
   template_description = "Packer generated template image on ${timestamp()}"
 

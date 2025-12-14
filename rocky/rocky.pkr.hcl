@@ -14,8 +14,6 @@ build {
         ssh_public_key   = chomp(file(var.ssh_public_key_file))
       })
     }
-    iso_url       = var.iso_url["rocky9"]
-    iso_checksum  = var.iso_checksum["rocky9"]
     template_name = "rocky9"
     vm_id         = var.vm_id["rocky9"]
   }
@@ -35,8 +33,6 @@ build {
         ssh_public_key   = chomp(file(var.ssh_public_key_file))
       })
     }
-    iso_url       = var.iso_url["rocky10"]
-    iso_checksum  = var.iso_checksum["rocky10"]
     template_name = "rocky10"
     vm_id         = var.vm_id["rocky10"]
   }

@@ -12,8 +12,6 @@ build {
           ssh_public_key = chomp(file(var.ssh_public_key_file))
       })
     }
-    iso_url       = var.iso_url["ubuntu22"]
-    iso_checksum  = var.iso_checksum["ubuntu22"]
     template_name = "ubuntu22"
     vm_id         = var.vm_id["ubuntu22"]
   }
@@ -31,8 +29,6 @@ build {
           ssh_public_key = chomp(file(var.ssh_public_key_file))
       })
     }
-    iso_url       = var.iso_url["ubuntu24"]
-    iso_checksum  = var.iso_checksum["ubuntu24"]
     template_name = "ubuntu24"
     vm_id         = var.vm_id["ubuntu24"]
   }

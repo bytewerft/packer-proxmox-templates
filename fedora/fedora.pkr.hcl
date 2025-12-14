@@ -10,8 +10,6 @@ build {
         ssh_public_key = chomp(file(var.ssh_public_key_file))
       })
     }
-    iso_url       = var.iso_url["fedora42"]
-    iso_checksum  = var.iso_checksum["fedora42"]
     template_name = "fedora42"
     vm_id         = var.vm_id["fedora42"]
   }
@@ -27,8 +25,6 @@ build {
         ssh_public_key = chomp(file(var.ssh_public_key_file))
       })
     }
-    iso_url       = var.iso_url["fedora43"]
-    iso_checksum  = var.iso_checksum["fedora43"]
     template_name = "fedora43"
     vm_id         = var.vm_id["fedora43"]
   }

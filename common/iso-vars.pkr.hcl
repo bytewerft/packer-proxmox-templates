@@ -92,7 +92,7 @@ variable "iso_checksum" {
   }
 }
 
-variable "unmount_iso" {
+variable "unmount" {
   type    = bool
   default = true
 }
