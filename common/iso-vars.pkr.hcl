@@ -26,47 +26,47 @@ variable "apt_proxy_https" {
   default     = ""
 }
 
-variable "centos_install_url" {
+variable "rocky_install_url" {
   description = "Installation tree URL - single source, not a mirror list."
   type        = map(string)
   default = {
-    "centos8" = ""
-    "centos9" = ""
+    "rocky9"  = "https://mirror.netzwerge.de/rocky-linux/9/BaseOS/x86_64/kickstart/"
+    "rocky10" = "https://mirror.netzwerge.de/rocky-linux/10/BaseOS/x86_64/kickstart/"
   }
 }
 
-variable "centos_mirror_appstream" {
+variable "rocky_mirror_appstream" {
   description = "Appstream mirror list, if set packages will be updated on install."
   type        = map(string)
   default = {
-    "centos8" = ""
-    "centos9" = ""
+    "rocky9" = "https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-9"
+    "rocky10" = "https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=AppStream-10"
   }
 }
 
-variable "centos_mirror_baseos" {
-  description = "Baseos mirror list, if set packages will be updated on install."
-  type        = map(string)
-  default = {
-    "centos8" = ""
-    "centos9" = ""
-  }
-}
-
-variable "centos_mirror_extras" {
+variable "rocky_mirror_extras" {
   description = "Extras mirror list, if set packages will be updated on install."
   type        = map(string)
   default = {
-    "centos8" = ""
-    "centos9" = ""
+    "rocky9"  = "https://mirrors.fedoraproject.org/mirrorlist?repo=epel-9&arch=x86_64"
+    "rocky10" = "https://mirrors.fedoraproject.org/mirrorlist?repo=epel-10&arch=x86_64"
+  }
+}
+
+variable "rocky_mirror_baseos" {
+  description = "Baseos mirror list, if set packages will be updated on install."
+  type        = map(string)
+  default = {
+    "rocky9"  = "https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-9"
+    "rocky10" = "https://mirrors.rockylinux.org/mirrorlist?arch=x86_64&repo=BaseOS-10"
   }
 }
 
 variable "iso_url" {
   type = map(string)
   default = {
-    "centos8"  = ""
-    "centos9"  = ""
+    "rocky9"   = "https://mirror.netzwerge.de/rocky-linux/9.7/isos/x86_64/Rocky-9.7-x86_64-boot.iso"
+    "rocky10"  = "https://mirror.netzwerge.de/rocky-linux/10.1/isos/x86_64/Rocky-10.1-x86_64-boot.iso"
     "debian11" = "https://get.debian.org/images/archive/11.11.0/amd64/iso-cd/debian-11.11.0-amd64-netinst.iso"
     "debian12" = "https://get.debian.org/images/archive/12.12.0/amd64/iso-cd/debian-12.12.0-amd64-netinst.iso"
     "debian13" = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso"
@@ -80,8 +80,8 @@ variable "iso_url" {
 variable "iso_checksum" {
   type = map(string)
   default = {
-    "centos8"  = "file:"
-    "centos9"  = "file:"
+    "rocky9"   = "file:https://mirror.netzwerge.de/rocky-linux/9.7/isos/x86_64/Rocky-9.7-x86_64-boot.iso.CHECKSUM"
+    "rocky10"  = "file:https://mirror.netzwerge.de/rocky-linux/10.1/isos/x86_64/Rocky-10.1-x86_64-boot.iso.CHECKSUM"
     "debian11" = "file:https://get.debian.org/images/archive/11.11.0/amd64/iso-cd/SHA256SUMS"
     "debian12" = "file:https://get.debian.org/images/archive/12.12.0/amd64/iso-cd/SHA256SUMS"
     "debian13" = "file:https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS"
@@ -106,8 +106,8 @@ variable "os" {
 variable "vm_id" {
   type = map(number)
   default = {
-    "centos8"  = 0
-    "centos9"  = 0
+    "rocky9"   = 0
+    "rocky10"  = 0
     "debian10" = 0
     "debian11" = 0
     "debian12" = 0
@@ -128,18 +128,6 @@ variable "boot_wait" {
 variable "boot_key_interval" {
   type = string
   default = "50ms"
-}
-
-variable "boot_cmd_centos" {
-  description = "Boot command for CentOS Stream 8-9"
-  type        = list(string)
-  default = [
-    "<tab>",
-    "<bs><bs><bs><bs><bs>",
-    "hostname=centos ",
-    "inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/anaconda-ks.cfg ",
-    "<wait><enter>"
-  ]
 }
 
 variable "boot_cmd_debian" {
@@ -177,5 +165,30 @@ variable "boot_cmd_ubuntu22" {
     "initrd /casper/initrd",
     "<enter><wait>",
     "boot<enter>"
+  ]
+}
+
+variable "boot_cmd_rocky9" {
+  description = "Boot command for Rocky 9"
+  type        = list(string)
+  default = [
+    "<up>",
+    "<tab>",
+    " inst.text",
+    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/anaconda-ks.cfg",
+    "<enter>"
+  ]
+}
+
+variable "boot_cmd_rocky10" {
+  description = "Boot command for Rocky 10"
+  type        = list(string)
+  default = [
+    "<up>",
+    "e",
+    "<down><down><end><wait>",
+    " inst.text",
+    " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/anaconda-ks.cfg",
+    "<enter><f10>"
   ]
 }

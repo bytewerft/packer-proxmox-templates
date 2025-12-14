@@ -1,7 +1,6 @@
 # Packer Proxmox Templates
 
-Turnkey Packer templates for downloading Debian, Fedora, and Ubuntu images on Proxmox (PVE) and creating PVE templates -
-see below for details on [CentOS](#centos).
+Turnkey Packer templates for downloading Debian, Ubuntu, Fedora and Rocky Linux images on Proxmox (PVE) and creating PVE templates.
 
 ```sh
 # create a SSH key for Packer
@@ -26,7 +25,7 @@ packer build \
 .
 ```
 
-**NOTE**: The **default user** is the distributions name, e.g. `ubuntu`, with the exception of CentOS being
+**NOTE**: The **default user** is the distributions name, e.g. `ubuntu`, with the exception of Rocky Linux being
 `cloud-user`. Cloud-init will create a default user on all cloned VMs,
 **must add SSH key(s) and/or password in the Proxmox GUI cloud-init settings to access the VM** - SSH only
 accepts key based authentication. All images have `cloud-init`, `openssh-server` and `qemu-guest-agent` installed.
@@ -195,41 +194,12 @@ See [`iso-vars.pkr.hcl`](common/iso-vars.pkr.hcl) and [`pve-vars.pkr.hcl`](commo
 
 ## Distro Configurations
 
-### CentOS
+### Rocky Linux
 
 - The **default** user is `cloud-user`, update the **username**, **ssh key(s)**, and/or **password** using the Proxmox
   cloud-init GUI.
-- [CentOS kickstart file (link)](centos/configs/anaconda-ks.cfg)
-- **Important**: CentOS URLs and checksums are intentionally not provided, as bandwidth is limited and ISOs are not
-  available from `mirror.centos.org`. To set a mirror create an auto vars file, `centos/centos.auto.pkrvars.hcl`, and
-  add the closest geographic mirror from the list: [CentOS 9 Stream Mirrors] or [Fedora Mirror Manager]. Alternatively,
-  create your own installation tree: [CentOS Docs - Creating Installation Sources for Kickstart].
-
-  | Variable                  | Default | Description                                                                | Required |
-  | ------------------------- | ------- | -------------------------------------------------------------------------- | -------- |
-  | `iso_url`                 | `''`    | Map(string), URL                                                           | **Yes**  |
-  | `iso_checksum`            | `''`    | Map(string), prepend URL with `file:`                                      | **Yes**  |
-  | `centos_install_url`      | `''`    | Map(string), URL - single source, not a mirror list                        | **Yes**  |
-  | `centos_mirror_appstream` | `''`    | Map(string), URL - mirror list, if set packages will be updated on install | No       |
-  | `centos_mirror_baseos`    | `''`    | Map(string), URL - mirror list, if set packages will be updated on install | No       |
-  | `centos_mirror_extras`    | `''`    | Map(string), URL - mirror list, if set packages will be updated on install | No       |
-
-  ```HCL
-  // centos.auto.pkrvars.hcl
-  centos_install_url = {
-    "centos8" = "https://mirror.example.com/centos/8-stream/BaseOS/x86_64/os/"
-    "centos9" = "https://mirror.example.com/centos-stream/9-stream/BaseOS/x86_64/os/"
-  }
-  iso_url = {
-    "centos8" = "https://mirror.example.com/centos/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-latest-boot.iso"
-    "centos9" = "https://mirror.example.com/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso"
-  }
-  iso_checksum = {
-    "centos8" = "file:https://mirror.example.com/centos/8-stream/isos/x86_64/CHECKSUM"
-    "centos9" = "file:https://mirror.example.com/centos-stream/9-stream/BaseOS/x86_64/iso/CentOS-Stream-9-latest-x86_64-boot.iso.MD5SUM"
-  }
-  ```
-
+- [Rocky Linux kickstart file (link)](rocky/configs/anaconda-ks.cfg)
+  
 ### Fedora
 
 - The **default** user is `fedora`, update the **username**, **ssh key(s)**, and/or **password** using the Proxmox
@@ -306,13 +276,6 @@ Packer:
 - [Packer Plugin: Proxmox](https://developer.hashicorp.com/packer/integrations/hashicorp/proxmox)
 - [GitHub: hashicorp/packer-plugin-proxmox](https://github.com/hashicorp/packer-plugin-proxmox)
 
-CentOS:
-
-- [CentOS Docs - Creating Installation Sources for Kickstart]
-- [CentOS 8 Stream Mirrors](http://isoredirect.centos.org/centos/8-stream/isos/x86_64/)
-- [CentOS 9 Stream Mirrors]
-- [Fedora Mirror Manager]
-
 Debian:
 
 - [Debian Release - Stable](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)
@@ -332,7 +295,3 @@ Ubuntu:
 
 - [Ubuntu Releases](https://releases.ubuntu.com/)
 - [Ubuntu Docs: Automated Server Installation](https://ubuntu.com/server/docs/install/autoinstall)
-
-[CentOS Docs - Creating Installation Sources for Kickstart]: https://docs.centos.org/en-US/8-docs/advanced-install/assembly_creating-installation-sources-for-kickstart-installations/
-[CentOS 9 Stream Mirrors]: https://www.centos.org/download/mirrors/
-[Fedora Mirror Manager]: https://mirrors.fedoraproject.org/
